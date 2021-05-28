@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:morphosis_flutter_demo/non_ui/modal/task.dart';
+import 'package:morphosis_flutter_demo/modal/task.dart';
 import 'package:morphosis_flutter_demo/ui/screens/task.dart';
 
 class TasksPage extends StatelessWidget {

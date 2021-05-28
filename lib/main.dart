@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:morphosis_flutter_demo/non_ui/repo/firebase_manager.dart';
+import 'package:morphosis_flutter_demo/repository/firebase_manager.dart';
 import 'package:morphosis_flutter_demo/ui/screens/index.dart';
+import 'package:morphosis_flutter_demo/ui/theam/colors.dart';
 import 'package:morphosis_flutter_demo/ui/widgets/error_widget.dart';
 
 const title = 'Morphosis Demo';
@@ -91,16 +93,25 @@ class _FirebaseAppState extends State<FirebaseApp> {
 }
 
 class App extends StatelessWidget {
-  ///TODO: Try to implement themeing and use it throughout the app
+  ///TODO: Try to implement themeing and use it throughout the app - DONE
   /// For reference : https://flutter.dev/docs/cookbook/design/themes
   ///
 
-  ///TODO: Restructure folders pr rearrange folders based on your need.
-  ///TODO: Implement state management of your choice.
+  ///TODO: Restructure folders pr rearrange folders based on your need. - DONE
+  ///TODO: Implement state management of your choice. - DONE
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.light().copyWith(
+        primaryColor: primary,
+        scaffoldBackgroundColor: white,
+        appBarTheme: AppBarTheme(
+          color: primary,
+          brightness: Brightness.light,
+          iconTheme: IconThemeData(color: red),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
       title: title,
       home: IndexPage(),

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:morphosis_flutter_demo/non_ui/modal/task.dart';
-import 'package:morphosis_flutter_demo/non_ui/repo/firebase_manager.dart';
+import 'package:morphosis_flutter_demo/modal/task.dart';
+import 'package:morphosis_flutter_demo/repository/firebase_manager.dart';
 
 class TaskPage extends StatelessWidget {
   TaskPage({this.task});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:morphosis_flutter_demo/non_ui/repo/firebase_manager.dart';
+import 'package:morphosis_flutter_demo/repository/firebase_manager.dart';
 import 'package:morphosis_flutter_demo/ui/screens/home.dart';
 import 'package:morphosis_flutter_demo/ui/screens/tasks.dart';
 

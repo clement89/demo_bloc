@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:morphosis_flutter_demo/non_ui/modal/task.dart';
+import 'package:morphosis_flutter_demo/modal/task.dart';
 
 class FirebaseManager {
   static FirebaseManager _one;
