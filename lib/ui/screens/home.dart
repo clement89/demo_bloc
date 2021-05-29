@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:morphosis_flutter_demo/bloc/users_bloc.dart';
+import 'package:morphosis_flutter_demo/modal/api_response.dart';
+import 'package:morphosis_flutter_demo/modal/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -15,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _searchTextField.text = "Search";
     super.initState();
+    usersBloc..getUsers();
   }
 
   @override
@@ -53,14 +57,80 @@ class _HomePageState extends State<HomePage> {
               controller: _searchTextField,
             ),
             Spacer(),
-            Text(
-              "Call any api you like from open apis and show them in a list. ",
-              textAlign: TextAlign.center,
-            ),
+            // Text(
+            //   "Call any api you like from open apis and show them in a list. ",
+            //   textAlign: TextAlign.center,
+            // ),
+            _buildUsers(),
             Spacer(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildUsers() {
+    return StreamBuilder<ApiResponse>(
+      stream: usersBloc.subject.stream,
+      builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+        print('snapShoot - $snapshot');
+        if (snapshot.hasData) {
+          if (snapshot.data.isError) {
+            return _buildErrorWidget(snapshot.data.errorMessage);
+          }
+          return _buildHomeWidget(snapshot.data);
+        } else if (snapshot.hasError) {
+          return _buildErrorWidget(snapshot.error);
+        } else {
+          return _buildLoadingWidget();
+        }
+      },
+    );
+  }
+
+  Widget _buildLoadingWidget() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 25.0,
+          width: 25.0,
+          child: CircularProgressIndicator(
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            strokeWidth: 4.0,
+          ),
+        )
+      ],
+    ));
+  }
+
+  Widget _buildErrorWidget(String error) {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("Error occured: $error"),
+      ],
+    ));
+  }
+
+  Widget _buildHomeWidget(ApiResponse data) {
+    List<User> users = usersBloc.users;
+    print(users);
+    if (users.length == 0) {
+      return Container();
+    } else {
+      return ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, i) {
+          return ListTile(
+            title: Text(users[i].name),
+            subtitle: Text(users[i].email),
+          );
+        },
+        itemCount: users.length,
+      );
+    }
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:morphosis_flutter_demo/modal/task.dart';
@@ -23,6 +25,46 @@ class FirebaseManager {
   //TODO: implement firestore CRUD functions here
   void addTask(Task task) {
     tasksRef.add(task.toJson());
+  }
+
+  Future<void> createTask({Task task}) async {
+    return tasksRef
+        .add(task.toJson())
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
+
+  Future<void> updateTask({Task task}) async {
+    try {
+      tasksRef
+          .doc(task.id)
+          .update(task.toJson())
+          .then((value) => print("User Updated"))
+          .catchError((error) => print("Failed to update user: $error"));
+    } on SocketException {
+      print('No internet connection');
+    }
+  }
+
+  Future<void> readAllTasks() async {
+    try {
+      List<Task> taskList;
+      tasksRef.get().then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          taskList.add(Task.fromJson(doc.data()));
+        });
+      });
+    } on SocketException {
+      print('No internet connection');
+    }
+  }
+
+  Future<void> deleteTask({Task task}) {
+    return tasksRef
+        .doc(task.id)
+        .delete()
+        .then((value) => print("User Deleted"))
+        .catchError((error) => print("Failed to delete user: $error"));
   }
 }
 
