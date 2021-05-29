@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
         height: size.height,
         width: size.width,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             /* In this section we will be testing your skills with network and local storage. You need to fetch data from any open source api from the internet. 
@@ -56,13 +56,11 @@ class _HomePageState extends State<HomePage> {
             CupertinoSearchTextField(
               controller: _searchTextField,
             ),
-            Spacer(),
             // Text(
             //   "Call any api you like from open apis and show them in a list. ",
             //   textAlign: TextAlign.center,
             // ),
             _buildUsers(),
-            Spacer(),
           ],
         ),
       ),
