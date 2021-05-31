@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _searchTextField.text = "Search";
+    _searchTextField.text = "";
     super.initState();
     usersBloc..getUsers();
   }
@@ -55,6 +55,13 @@ class _HomePageState extends State<HomePage> {
 
             CupertinoSearchTextField(
               controller: _searchTextField,
+              onChanged: (String value) {
+                print('The text has changed to: $value');
+                setState(() {});
+              },
+              onSubmitted: (String value) {
+                print('Submitted text: $value');
+              },
             ),
             // Text(
             //   "Call any api you like from open apis and show them in a list. ",
@@ -89,13 +96,14 @@ class _HomePageState extends State<HomePage> {
   Widget _buildLoadingWidget() {
     return Center(
         child: Column(
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
           height: 25.0,
           width: 25.0,
           child: CircularProgressIndicator(
-            valueColor: new AlwaysStoppedAnimation<Color>(Colors.white),
+            valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
             strokeWidth: 4.0,
           ),
         )
@@ -114,8 +122,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildHomeWidget(ApiResponse data) {
-    List<User> users = usersBloc.users;
-    print(users);
+    final List<User> users = _searchTextField.text.isEmpty
+        ? usersBloc.users
+        : usersBloc.users
+            .where((q) => q.name.startsWith(_searchTextField.text))
+            .toList();
+
     if (users.length == 0) {
       return Container();
     } else {

@@ -23,15 +23,13 @@ class FirebaseManager {
   List<Task> get tasks => mockData.map((t) => Task.fromJson(t)).toList();
 
   //TODO: implement firestore CRUD functions here
-  void addTask(Task task) {
-    tasksRef.add(task.toJson());
-  }
 
   Future<void> createTask({Task task}) async {
     return tasksRef
-        .add(task.toJson())
-        .then((value) => print("User Added"))
-        .catchError((error) => print("Failed to add user: $error"));
+        .doc(task.id)
+        .set(task.toJson())
+        .then((value) => print("Task Added"))
+        .catchError((error) => print("Failed to add Task: $error"));
   }
 
   Future<void> updateTask({Task task}) async {
@@ -39,32 +37,58 @@ class FirebaseManager {
       tasksRef
           .doc(task.id)
           .update(task.toJson())
-          .then((value) => print("User Updated"))
-          .catchError((error) => print("Failed to update user: $error"));
+          .then((value) => print("Task Updated"))
+          .catchError((error) => print("Failed to update task: $error"));
     } on SocketException {
       print('No internet connection');
     }
   }
 
-  Future<void> readAllTasks() async {
+  Future readAllTasks() async {
     try {
-      List<Task> taskList;
-      tasksRef.get().then((QuerySnapshot querySnapshot) {
+      List<Task> taskList = [];
+      await tasksRef.get().then((QuerySnapshot querySnapshot) {
         querySnapshot.docs.forEach((doc) {
-          taskList.add(Task.fromJson(doc.data()));
+          print('doc - ${doc.data()}');
+          Task task = Task.fromJson(doc.data());
+          task.id = doc.id;
+
+          taskList.add(task);
         });
       });
+      return taskList;
     } on SocketException {
       print('No internet connection');
     }
   }
 
-  Future<void> deleteTask({Task task}) {
-    return tasksRef
+  Future readCompletedTasks() async {
+    try {
+      List<Task> taskList = [];
+      await tasksRef
+          .where('completed_at', isNotEqualTo: null)
+          .get()
+          .then((QuerySnapshot querySnapshot) {
+        querySnapshot.docs.forEach((doc) {
+          print('doc - ${doc.data()}');
+
+          Task task = Task.fromJson(doc.data());
+          task.id = doc.id;
+          taskList.add(task);
+        });
+      });
+      return taskList;
+    } on SocketException {
+      print('No internet connection');
+    }
+  }
+
+  Future<void> deleteTask({Task task}) async {
+    return await tasksRef
         .doc(task.id)
         .delete()
-        .then((value) => print("User Deleted"))
-        .catchError((error) => print("Failed to delete user: $error"));
+        .then((value) => print("Task Deleted"))
+        .catchError((error) => print("Failed to delete task: $error"));
   }
 }
 

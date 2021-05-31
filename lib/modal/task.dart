@@ -1,10 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'task.g.dart';
+// part 'task.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Task {
-  Task();
+  Task(
+    this.id,
+    this.title,
+    this.description,
+    this.completedAt,
+  );
 
   String id;
   String title;
@@ -28,7 +33,27 @@ class Task {
     }
   }
 
-  factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      json['id'] ?? '',
+      json['title'] ?? 'No title',
+      json['description'] ?? 'No Description',
+      json['completed_at'] == null
+          ? null
+          : DateTime.parse(json['completed_at'] as String),
+    );
+  }
 
-  Map<String, dynamic> toJson() => _$TaskToJson(this);
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'completed_at': completedAt?.toIso8601String() ?? null,
+    };
+  }
+
+  // factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
+  //
+  // Map<String, dynamic> toJson() => _$TaskToJson(this);
 }

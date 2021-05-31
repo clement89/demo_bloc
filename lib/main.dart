@@ -14,7 +14,7 @@ void main() async {
   runZonedGuarded(() {
     runApp(FirebaseApp());
   }, (error, stackTrace) {
-    print('runZonedGuarded: Caught error in my root zone.');
+    print('runZonedGuarded: Caught error in my root zone. $error');
   });
 }
 

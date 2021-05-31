@@ -14,9 +14,6 @@ class UsersListBloc {
     print('getting users..');
     response = await _movieRepository.getUsers();
     _subject.sink.add(response);
-    print(response.data);
-    print(response.errorMessage);
-
   }
 
   List<User> get users {

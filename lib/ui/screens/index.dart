@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:morphosis_flutter_demo/repository/firebase_manager.dart';
 import 'package:morphosis_flutter_demo/ui/screens/home.dart';
 import 'package:morphosis_flutter_demo/ui/screens/tasks.dart';
 
@@ -23,12 +22,12 @@ class _IndexPageState extends State<IndexPage> {
       HomePage(),
       TasksPage(
         title: 'All Tasks',
-        tasks: FirebaseManager.shared.tasks,
+        // tasks: FirebaseManager.shared.tasks,
       ),
       TasksPage(
         title: 'Completed Tasks',
-        tasks:
-            FirebaseManager.shared.tasks.where((t) => t.isCompleted).toList(),
+        // tasks:
+        //     FirebaseManager.shared.tasks.where((t) => t.isCompleted).toList(),
       )
     ];
 
