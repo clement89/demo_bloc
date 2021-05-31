@@ -1,7 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// part 'task.g.dart';
-
 @JsonSerializable(explicitToJson: true)
 class Task {
   Task(
@@ -49,7 +47,8 @@ class Task {
       'id': id,
       'title': title,
       'description': description,
-      'completed_at': completedAt?.toIso8601String() ?? null,
+      'completed_at':
+          completedAt != null ? completedAt.toIso8601String() : null,
     };
   }
 

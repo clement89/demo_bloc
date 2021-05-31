@@ -53,7 +53,6 @@ class _TasksPageState extends State<TasksPage> {
     return StreamBuilder<List<Task>>(
       stream: tasksBloc.subject.stream,
       builder: (context, AsyncSnapshot<List<Task>> snapshot) {
-        print('snapShoot - $snapshot');
         if (snapshot.hasData) {
           return _buildTasksWidget(snapshot.data);
         } else if (snapshot.hasError) {
@@ -125,25 +124,17 @@ class _Task extends StatefulWidget {
 class __TaskState extends State<_Task> {
   void _delete() async {
     //TODO implement delete to firestore
-    if (widget.task.id != null) {
-      await FirebaseManager.shared.deleteTask(task: widget.task);
-      tasksBloc.removeTask(widget.task);
-    } else {
-      print("Task id id null..");
-    }
+    await FirebaseManager.shared.deleteTask(task: widget.task);
+    tasksBloc.removeTask(widget.task);
   }
 
   void _toggleComplete() {
     //TODO implement toggle complete to firestore
-    if (widget.task.id != '') {
-      FirebaseManager.shared.updateTask(task: widget.task);
-      setState(() {
-        widget.task.toggleComplete();
-      });
-      print(widget.task.toJson());
-    } else {
-      print("Task id id null..");
-    }
+    setState(() {
+      widget.task.toggleComplete();
+    });
+    FirebaseManager.shared.updateTask(task: widget.task);
+    print(widget.task.toJson());
   }
 
   void _view(BuildContext context) {

@@ -56,7 +56,6 @@ class _HomePageState extends State<HomePage> {
             CupertinoSearchTextField(
               controller: _searchTextField,
               onChanged: (String value) {
-                print('The text has changed to: $value');
                 setState(() {});
               },
               onSubmitted: (String value) {
@@ -78,7 +77,6 @@ class _HomePageState extends State<HomePage> {
     return StreamBuilder<ApiResponse>(
       stream: usersBloc.subject.stream,
       builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
-        print('snapShoot - $snapshot');
         if (snapshot.hasData) {
           if (snapshot.data.isError) {
             return _buildErrorWidget(snapshot.data.errorMessage);

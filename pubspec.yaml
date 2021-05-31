@@ -29,13 +29,15 @@ dependencies:
   dio: ^4.0.0
   flutter_bloc: ^7.0.0
   rxdart: ^0.27.0
-  equatable: ^2.0.2
-  flushbar: ^1.10.4
+  hive: ^2.0.4
+  hive_flutter: ^1.0.0
+  path_provider: ^2.0.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: any
+  hive_generator: ^1.1.0
   json_annotation: ^4.0.1
   json_serializable: ^4.1.2
   test: any
