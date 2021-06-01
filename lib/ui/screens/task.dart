@@ -70,20 +70,19 @@ class __TaskFormState extends State<_TaskForm> {
   void _save(BuildContext context) {
     //TODO implement save to firestore
 
-    // String errorMsg = '';
-    // if (_titleController.text.isEmpty) {
-    //   errorMsg = 'Please enter title!';
-    // } else if (_descriptionController.text.isEmpty) {
-    //   errorMsg = 'Please enter description!';
-    // }
-    // if (errorMsg.isNotEmpty) {
-    //   _showMessage(context, errorMsg);
-    //   return;
-    // }
+    String errorMsg = '';
+    if (_titleController.text.isEmpty) {
+      errorMsg = 'Please enter title!';
+    } else if (_descriptionController.text.isEmpty) {
+      errorMsg = 'Please enter description!';
+    }
+    if (errorMsg.isNotEmpty) {
+      _showMessage(context, errorMsg);
+      return;
+    }
 
-    task.title = 'Title'; //_titleController.text;
-    task.description = 'Testing';
-    _descriptionController.text;
+    task.title = _titleController.text;
+    task.description = _descriptionController.text;
 
     if (isEditing) {
       FirebaseManager.shared.updateTask(task: task);
