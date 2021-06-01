@@ -7,6 +7,7 @@ import 'package:rxdart/rxdart.dart';
 
 class UsersListBloc {
   final ApiRepository _movieRepository = ApiRepository();
+  final StorageManager _storageManager = StorageManager()
   final BehaviorSubject<ApiResponse> _subject = BehaviorSubject<ApiResponse>();
   ApiResponse response;
 
