@@ -13,8 +13,6 @@ class TaskPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('buildong----');
-
     return Scaffold(
       appBar: AppBar(
         title: Text(task == null ? 'New Task' : 'Edit Task'),
@@ -88,11 +86,9 @@ class __TaskFormState extends State<_TaskForm> {
     _descriptionController.text;
 
     if (isEditing) {
-      print('Editing');
       FirebaseManager.shared.updateTask(task: task);
+      tasksBloc.update(task);
     } else {
-      print('Creating${task.toJson()}');
-
       Random random = new Random();
       int randomNumber = random.nextInt(100);
       task.id = randomNumber.toString();
@@ -109,8 +105,6 @@ class __TaskFormState extends State<_TaskForm> {
 
   @override
   Widget build(BuildContext context) {
-    print('buildong----');
-
     return SafeArea(
       child: Container(
         padding: const EdgeInsets.all(_padding),

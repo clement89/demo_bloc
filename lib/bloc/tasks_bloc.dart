@@ -18,6 +18,12 @@ class TasksListBloc {
     _tasks.sink.add(taskList);
   }
 
+  void update(Task task) {
+    taskList.removeWhere((item) => item.id == task.id);
+    taskList.add(task);
+    _tasks.sink.add(taskList);
+  }
+
   void removeTask(Task task) {
     taskList.remove(task);
     _tasks.sink.add(taskList);

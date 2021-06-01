@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:morphosis_flutter_demo/bloc/users_bloc.dart';
-import 'package:morphosis_flutter_demo/modal/api_response.dart';
 import 'package:morphosis_flutter_demo/modal/user.dart';
 
 class HomePage extends StatefulWidget {
@@ -74,13 +73,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildUsers() {
-    return StreamBuilder<ApiResponse>(
+    return StreamBuilder<List<User>>(
       stream: usersBloc.subject.stream,
-      builder: (context, AsyncSnapshot<ApiResponse> snapshot) {
+      builder: (context, AsyncSnapshot<List<User>> snapshot) {
         if (snapshot.hasData) {
-          if (snapshot.data.isError) {
-            return _buildErrorWidget(snapshot.data.errorMessage);
-          }
           return _buildHomeWidget(snapshot.data);
         } else if (snapshot.hasError) {
           return _buildErrorWidget(snapshot.error);
@@ -119,12 +115,10 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
-  Widget _buildHomeWidget(ApiResponse data) {
+  Widget _buildHomeWidget(List<User> data) {
     final List<User> users = _searchTextField.text.isEmpty
-        ? usersBloc.users
-        : usersBloc.users
-            .where((q) => q.name.startsWith(_searchTextField.text))
-            .toList();
+        ? data
+        : data.where((q) => q.name.startsWith(_searchTextField.text)).toList();
 
     if (users.length == 0) {
       return Container();

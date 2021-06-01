@@ -2,14 +2,17 @@ import 'package:hive/hive.dart';
 import 'package:morphosis_flutter_demo/modal/user.dart';
 
 class StorageManager {
-  final userBox = Hive.box('users');
+  var userBox;
 
-  void addUser(User user) {
-    userBox.add(user);
+  void addUsers(List<User> users) {
+    users.forEach((element) async {
+      await userBox.put(element.email, element);
+    });
   }
 
-  List<User> getAllUsers() {
-    return userBox.values;
+  Future<List<User>> getAllUsers() async {
+    userBox = await Hive.openBox<User>('users');
+    return userBox.values.toList();
   }
 
   void close() {

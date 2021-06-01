@@ -9,12 +9,15 @@ import 'package:morphosis_flutter_demo/ui/theam/colors.dart';
 import 'package:morphosis_flutter_demo/ui/widgets/error_widget.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'modal/user.dart';
+
 const title = 'Morphosis Demo';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final appDocumentDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
+  Hive.registerAdapter(UserAdapter());
 
   runZonedGuarded(() {
     runApp(FirebaseApp());
